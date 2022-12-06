@@ -1,6 +1,6 @@
 # cv_models
 
-This repository contains the implementation of basic CV models using TensorFLow and Keras.
+This repository contains the implementation of basic CV models using TensorFlow and Keras.
 
 All the models are trained on the [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html) datasest. It consists of 60000 32x32 rgb images belonging to 10 classes - airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck.
 
