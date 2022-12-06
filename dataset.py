@@ -3,28 +3,33 @@ from tensorflow import keras
 from tensorflow.keras.datasets import cifar10
 import matplotlib.pyplot as plt
 
+class Cifar10():
+  def __init__(self):
+    (self.x_train,self.y_train),(self.x_test,self.y_test) = cifar10.load_data()
+    self.x_train = self.x_train.astype('float32')/255.0
+    self.x_test = self.x_test.astype('float32')/255.0
 
-(x_train,y_train),(x_test,y_test) = cifar10.load_data()
-split = int(0.8*len(x_train))
-x_train = x_train.astype('float32')/255.0
-x_test = x_test.astype('float32')/255.0
-y_train = keras.utils.to_categorical(y_train)
-y_test = keras.utils.to_categorical(y_test)
+  def split(self,split_size):
+    split = int(split_size*len(self.x_train))
+    self.x_train1 = self.x_train[:split]
+    self.x_val = self.x_train[split:]
+    self.y_train1 = self.y_train[:split]
+    self.y_val = self.y_train[split:]
+    print(self.x_train1.shape)
+    print(self.x_val.shape)
+    print(self.y_train1.shape)
+    print(self.y_val.shape)
 
-x_train1 = x_train[:split]
-y_train1 = y_train[:split]
-x_val = x_train[split:]
-y_val = y_train[split:]
-
-class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+  def show_samples(self):
+    class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
                'dog', 'frog', 'horse', 'ship', 'truck']
+    plt.figure(figsize=(10,10))
+    for i in range(25):
+        plt.subplot(5,5,i+1)
+        plt.xticks([])
+        plt.yticks([])
+        plt.grid(False)
+        plt.imshow(self.x_train1[i])
+        plt.xlabel(class_names[self.y_train1[i][0]])
+    plt.show()
 
-plt.figure(figsize=(10,10))
-for i in range(25):
-    plt.subplot(5,5,i+1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-    plt.imshow(x_train[i])
-    plt.xlabel(class_names[y_train[i][0]])
-plt.show()
