@@ -1,32 +1,14 @@
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from tensorflow.keras.datasets import cifar10
 import matplotlib.pyplot as plt
+from dataset import *
 
 
-(x_train,y_train),(x_test,y_test) = cifar10.load_data()
+cifar10 = Cifar10()
 
 
-split = int(0.8*len(x_train))
-x_train = x_train.astype('float32')/255.0
-x_test = x_test.astype('float32')/255.0
-y_train = keras.utils.to_categorical(y_train)
-y_test = keras.utils.to_categorical(y_test)
-
-
-x_train1 = x_train[:split]
-y_train1 = y_train[:split]
-x_val = x_train[split:]
-y_val = y_train[split:]
-
-
-print(x_train1.shape)
-print(y_train1.shape)
-print(x_val.shape)
-print(y_val.shape)
-print(x_test.shape)
-print(y_test.shape)
+cifar10.split(0.8)
 
 
 model = keras.Sequential([
@@ -74,10 +56,10 @@ model.compile(optimizer = 'Adam',loss = keras.losses.categorical_crossentropy,me
 model.summary()
 
 
-history = model.fit(x_train1,y_train1,batch_size = 32,epochs = 20,validation_data = (x_val,y_val))
+history = model.fit(cifar10.x_train1,cifar10.y_train1,batch_size = 32,epochs = 20,validation_data = (cifar10.x_val,cifar10.y_val))
 
 
-history1 = model.evaluate(x_test,y_test,batch_size = 32)
+history1 = model.evaluate(cifar10.x_test,cifar10.y_test,batch_size = 32)
 
 
 plt.plot(history.history['accuracy'])
